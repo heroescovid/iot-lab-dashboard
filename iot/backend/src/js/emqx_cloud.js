@@ -1,30 +1,23 @@
 const options = {
-    clean: true, // retain session
-connectTimeout: 4000, // Timeout period
-// Authentication information
-clientId: 'emqx_test',
-username: 'emqx_test',
-password: 'emqx_test',
+    clean: true, 
+    connectTimeout: 4000, 
+    clientId: "emqx test",
+    username: "",
+    password: "",
 }
-
-// Connect string, and specify the connection method by the protocol
-// ws Unencrypted WebSocket connection
-// wss Encrypted WebSocket connection
-// mqtt Unencrypted TCP connection
-// mqtts Encrypted TCP connection
-// wxs WeChat applet connection
-// alis Alipay applet connection
-const connectUrl = 'wss://broker.emqx.io:8084/mqtt'
-const client = mqtt.connect(connectUrl, options)
-
-client.on('reconnect', (error) => {
-console.log('reconnecting:', error)
+const connect_mqtt = "wss://broker.emqx.io:8084/mqtt";
+const cliente_mqtt = mqtt.connect(connect_mqtt,options)
+cliente_mqtt.on("connect",() => {
+    cliente_mqtt.subscribe("dashboard/#");
+    console.log("connect succefully at port 1883");
+});
+cliente_mqtt.on("reconnect", (error) => {
+    console.log("reconnecting: ", error)
 })
-
-client.on('error', (error) => {
-console.log('Connection failed:', error)
+cliente_mqtt.on("error",(error) => {
+    console.log("Connection failed: ", error)
 })
-
-client.on('message', (topic, message) => {
-console.log('receive message：', topic, message.toString())
+cliente_mqtt.on("message",(topic,message) => {
+    console.log("receive message： ",topic,message.toString())
 })
+cliente_mqtt.publish("dashboard/bomba/estado","active")
