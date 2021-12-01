@@ -7,4 +7,4 @@ def index():
 @app.route("/sensores")
 def grafica():
     return render_template("grafica.html")
-app.run(host = "0.0.0.0",port = 5050,debug = True)
+app.run(host = "0.0.0.0",port = 7070,debug = True)
